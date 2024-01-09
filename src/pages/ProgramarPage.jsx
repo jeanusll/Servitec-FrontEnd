@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   Stepper,
@@ -16,8 +17,7 @@ import { ConfirmarDatos } from "../components/steps/ConfirmarDatos.jsx";
 import { ServiciosAcordeon } from "../components/ServiciosAcordeon.jsx";
 import { programarRequest } from "../api/programar.js";
 import { SuccessDialog } from "../components/SuccessProgramacionDialog.jsx";
-
-import { useProgramar } from "../context/ProgramarContext.jsx";
+import { useAuth } from "../context/authContext";
 
 export const ProgramarPage = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -36,6 +36,7 @@ export const ProgramarPage = () => {
   });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [succesProgramacion, setSuccessProgramacion] = useState(false);
+  const navigate = useNavigate();
 
   const handleCloseDialogProgramacion = () => {
     setSuccessProgramacion(false);

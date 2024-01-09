@@ -7,6 +7,7 @@ import { es } from "dayjs/locale/es";
 import localeData from "dayjs/plugin/localeData";
 import utc from "dayjs/plugin/utc";
 import EditIcon from "@mui/icons-material/Edit";
+import { Link, useNavigate } from "react-router-dom";
 
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -30,6 +31,7 @@ import {
   Button,
   IconButton,
 } from "@mui/material";
+import { useAuth } from "../context/authContext";
 import { VerServicioDialog } from "../components/verServicioDialog";
 export const ServicioPage = () => {
   const {
@@ -42,6 +44,7 @@ export const ServicioPage = () => {
     findServicio,
     updateServicio,
   } = useServicios();
+  const { isAuthenticated } = useAuth();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [isFinding, setIsFinding] = useState(false);
@@ -57,6 +60,7 @@ export const ServicioPage = () => {
     color: "",
     turno: "",
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllServicios(currentPage);

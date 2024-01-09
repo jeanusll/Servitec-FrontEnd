@@ -4,6 +4,7 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   Table,
@@ -24,6 +25,7 @@ import ClienteDialog from "../components/ClienteDialog.jsx";
 import { VerClienteDialog } from "../components/VerClienteDialog.jsx";
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { useAuth } from "../context/authContext";
 
 export const ClientesPage = () => {
   const {
@@ -38,6 +40,8 @@ export const ClientesPage = () => {
     findCliente,
     updateCliente,
   } = useClientes();
+  const navigate = useNavigate();
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [cliente, setCliente] = useState({
     nombre_apellido: "",
@@ -52,7 +56,7 @@ export const ClientesPage = () => {
   const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [isFinding, setIsFinding] = useState(false);
-
+  const { isAuthenticated } = useAuth();
   const handleVerCliente = (cliente) => {
     setClienteSeleccionado(cliente);
     setVerClienteDialogOpen(true);

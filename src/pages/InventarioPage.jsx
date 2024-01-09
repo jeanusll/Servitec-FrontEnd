@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useInventario } from "../context/inventarioContext.jsx";
 import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
+import { Link, useNavigate } from "react-router-dom";
 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -19,6 +20,7 @@ import {
   Typography,
 } from "@mui/material";
 import CreateAccesorioDialog from "../components/InventarioDialog.jsx";
+import { useAuth } from "../context/authContext";
 
 export const InventarioPage = () => {
   const {
@@ -39,6 +41,9 @@ export const InventarioPage = () => {
     descripcion: "",
     categoria: "",
   });
+
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const handleDialogOpen = (accesorioData) => {
     if (accesorioData && accesorioData._id) {

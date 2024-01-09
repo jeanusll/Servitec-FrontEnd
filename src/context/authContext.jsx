@@ -59,26 +59,26 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
-  useEffect(() => {
-    const checkLogin = async () => {
-      const cookies = Cookies.get();
-      if (!cookies.token) {
-        setIsAuthenticated(false);
-        setLoading(false);
-        return;
-      }
+  const checkLogin = async () => {
+    const cookies = Cookies.get();
+    if (!cookies.token) {
+      setIsAuthenticated(false);
+      setLoading(false);
+      return;
+    }
 
-      try {
-        const res = await verifyTokenRequest(cookies.token);
-        if (!res.data) return setIsAuthenticated(false);
-        setIsAuthenticated(true);
-        setUser(res.data);
-        setLoading(false);
-      } catch (error) {
-        setIsAuthenticated(false);
-        setLoading(false);
-      }
-    };
+    try {
+      const res = await verifyTokenRequest(cookies.token);
+      if (!res.data) return setIsAuthenticated(false);
+      setIsAuthenticated(true);
+      setUser(res.data);
+      setLoading(false);
+    } catch (error) {
+      setIsAuthenticated(false);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     checkLogin();
   }, []);
 
@@ -92,6 +92,7 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         errors,
         loading,
+        checkLogin,
       }}
     >
       {children}

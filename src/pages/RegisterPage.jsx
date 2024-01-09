@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import {
   TextField,
   Button,
@@ -10,13 +12,14 @@ import {
 import { useAuth } from "../context/authContext";
 
 export const RegisterPage = () => {
-  const { signup, errors, loading } = useAuth();
+  const { signup, errors, loading, isAuthenticated } = useAuth();
 
   const [userData, setUserData] = useState({
     name: "",
     username: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;

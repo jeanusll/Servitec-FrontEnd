@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHojaTrabajo } from "../context/HojaTrabajoContext";
+import { Link, useNavigate } from "react-router-dom";
 
 import TodayIcon from "@mui/icons-material/Today";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -29,6 +30,7 @@ import {
 } from "@mui/material";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { CalendarDialog } from "../components/CalendarDialog.jsx";
+import { useAuth } from "../context/authContext";
 
 export const HojaTrabajoPage = () => {
   const {
@@ -44,6 +46,8 @@ export const HojaTrabajoPage = () => {
   useEffect(() => {
     getHojaTrabajo(day);
   }, [day]);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const handleDownload = () => {
     downloadHojaTrabajo(day);

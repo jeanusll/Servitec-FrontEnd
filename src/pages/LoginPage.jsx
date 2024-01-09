@@ -23,7 +23,7 @@ export const LoginPage = () => {
     if (isAuthenticated) {
       navigate("/clientes");
     }
-  }, [isAuthenticated]);
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
