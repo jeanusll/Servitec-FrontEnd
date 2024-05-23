@@ -4,6 +4,7 @@ import {
   getAllServiciosRequest,
   findServicioRequest,
   updateServicioRequest,
+  deleteServicioRequest,
 } from "../api/servicio.js";
 
 const ServicioContext = createContext();
@@ -45,7 +46,6 @@ export const ServicioProvider = ({ children }) => {
   const findServicio = async (searchTerm, page) => {
     try {
       const res = await findServicioRequest(searchTerm, page);
-      console.log(res.data);
       setServicios(res.data.servicios);
       setCurrentPage(res.data.currentPage);
       setTotalPages(res.data.totalPages);
@@ -60,6 +60,15 @@ export const ServicioProvider = ({ children }) => {
     getAllServicios(page);
   };
 
+  const deleteServicio = async (id) => {
+    try {
+      const res = await deleteServicioRequest(id);
+      getAllServicios(currentPage);
+    } catch (error) {
+      setErrors(error.response.data.message);
+    }
+  };
+
   return (
     <ServicioContext.Provider
       value={{
@@ -72,6 +81,7 @@ export const ServicioProvider = ({ children }) => {
         getAllServicios,
         findServicio,
         updateServicio,
+        deleteServicio,
       }}
     >
       {children}

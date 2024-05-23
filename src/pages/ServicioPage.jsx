@@ -8,6 +8,7 @@ import localeData from "dayjs/plugin/localeData";
 import utc from "dayjs/plugin/utc";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link, useNavigate } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import SearchIcon from "@mui/icons-material/Search";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -43,6 +44,7 @@ export const ServicioPage = () => {
     setCurrentPage,
     findServicio,
     updateServicio,
+    deleteServicio,
   } = useServicios();
   const { isAuthenticated } = useAuth();
 
@@ -89,6 +91,10 @@ export const ServicioPage = () => {
     }
   };
 
+  const handleEliminarServicio = async (id) => {
+    await deleteServicio(id);
+  };
+
   const handleInputChange = async (e) => {
     const { name, value } = e.target;
     setServicioEditing({
@@ -101,7 +107,6 @@ export const ServicioPage = () => {
     setServicioEditing(servicio);
     setOpenDialogEdit(true);
   };
-
   const handleCloseEditarServicio = () => {
     setOpenDialogEdit(false);
     setServicioEditing({
@@ -199,16 +204,24 @@ export const ServicioPage = () => {
               <TableCell>Producto</TableCell>
               <TableCell>Fecha de Visita</TableCell>
               <TableCell>Tipo de Servicio</TableCell>
-              <TableCell>Estado Realizado</TableCell>
               <TableCell>Turno</TableCell>
               <TableCell>Comentario</TableCell>
-              <TableCell>¿Editar?</TableCell>
+              <TableCell>Acciones</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {servicios.length > 0 &&
               servicios.map((servicio) => (
-                <TableRow key={servicio._id}>
+                <TableRow
+                  key={servicio._id}
+                  sx={{
+                    borderLeftColor: servicio.estado_realizado
+                      ? "green"
+                      : "red",
+                    borderLeftWidth: 4,
+                    borderLeftStyle: "solid",
+                  }}
+                >
                   <TableCell>{servicio.cliente.nombre_apellido}</TableCell>
                   <TableCell>{servicio.numero_llamada}</TableCell>
                   <TableCell>{servicio.tienda}</TableCell>
@@ -217,13 +230,7 @@ export const ServicioPage = () => {
                     {dayjs(servicio.fecha_visita).utc().format("DD/MM/YYYY")}
                   </TableCell>
                   <TableCell>{servicio.tipo_servicio}</TableCell>
-                  <TableCell>
-                    {servicio.estado_realizado ? (
-                      <CheckIcon color="primary" />
-                    ) : (
-                      <CloseIcon color="error" />
-                    )}
-                  </TableCell>
+
                   <TableCell>{servicio.turno}</TableCell>
                   <TableCell>{servicio.comentario}</TableCell>
                   <TableCell>
@@ -232,6 +239,12 @@ export const ServicioPage = () => {
                       onClick={() => handleEditarServicio(servicio)}
                     >
                       <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      aria-label="editar"
+                      onClick={() => handleEliminarServicio(servicio._id)}
+                    >
+                      <DeleteIcon />
                     </IconButton>
                   </TableCell>
                 </TableRow>

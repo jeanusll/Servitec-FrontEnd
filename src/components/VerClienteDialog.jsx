@@ -61,7 +61,7 @@ export const VerClienteDialog = ({ open, handleClose, cliente }) => {
                 sx={{
                   borderLeft: servicio.estado_realizado
                     ? "4px solid green"
-                    : "none",
+                    : "4px solid red",
                 }}
               >
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>

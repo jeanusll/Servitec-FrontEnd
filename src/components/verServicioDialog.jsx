@@ -20,6 +20,8 @@ import dayjs from "dayjs";
 import { es } from "dayjs/locale/es";
 import localeData from "dayjs/plugin/localeData";
 import utc from "dayjs/plugin/utc";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 dayjs.extend(utc);
 dayjs.locale("es");
@@ -112,6 +114,28 @@ export const VerServicioDialog = ({
               onChange={handleInputChange}
             />
           </Grid>
+          <Grid item xs={6}>
+            <FormControlLabel
+              label="Estado Realizado"
+              control={
+                <Checkbox
+                  checked={servicio.estado_realizado}
+                  onChange={() =>
+                    handleInputChange({
+                      target: {
+                        name: "estado_realizado",
+                        value: !servicio.estado_realizado,
+                      },
+                    })
+                  }
+                  name="estado_realizado"
+                  icon={<CloseIcon />}
+                  checkedIcon={<CheckIcon />}
+                />
+              }
+            />
+          </Grid>
+
           <Grid item xs={6}>
             <FormControl fullWidth>
               <InputLabel>Color</InputLabel>

@@ -87,6 +87,7 @@ export const ConfirmarDatos = ({ cliente, servicios }) => {
                   <TableCell>{`Servicio ${index + 1}`}</TableCell>
                   <TableCell>{servicio.numero_llamada}</TableCell>
                   <TableCell>{servicio.tienda}</TableCell>
+                  <TableCell>{servicio.marca}</TableCell>
                   <TableCell>{servicio.turno}</TableCell>
                 </TableRow>
               ))}

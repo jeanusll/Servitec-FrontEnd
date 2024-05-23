@@ -227,6 +227,7 @@ export const ClientesPage = () => {
               <TableCell>Nombre</TableCell>
               <TableCell>DNI</TableCell>
               <TableCell>Teléfono</TableCell>
+              <TableCell>Distrito</TableCell>
               <TableCell>Direccion</TableCell>
               <TableCell>Referencia</TableCell>
               <TableCell>Comentario</TableCell>
@@ -251,6 +252,7 @@ export const ClientesPage = () => {
                 <TableCell>{cliente.dni}</TableCell>
                 <TableCell>{cliente.num_telefono}</TableCell>
                 <TableCell>{cliente.distrito}</TableCell>
+                <TableCell>{cliente.direccion}</TableCell>
                 <TableCell>{cliente.referencia}</TableCell>
                 <TableCell>{cliente.comentario}</TableCell>
                 <TableCell>

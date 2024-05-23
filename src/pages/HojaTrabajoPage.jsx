@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHojaTrabajo } from "../context/HojaTrabajoContext";
 import { Link, useNavigate } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
 
 import TodayIcon from "@mui/icons-material/Today";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -27,10 +28,13 @@ import {
   Button,
   TextField,
   IconButton,
+  Grid,
 } from "@mui/material";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { CalendarDialog } from "../components/CalendarDialog.jsx";
 import { useAuth } from "../context/authContext";
+import { VerServicioDialog } from "../components/verServicioDialog.jsx";
+import { useServicios } from "../context/ServicioContext.jsx";
 
 export const HojaTrabajoPage = () => {
   const {
@@ -46,8 +50,6 @@ export const HojaTrabajoPage = () => {
   useEffect(() => {
     getHojaTrabajo(day);
   }, [day]);
-  const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
 
   const handleDownload = () => {
     downloadHojaTrabajo(day);
@@ -75,17 +77,18 @@ export const HojaTrabajoPage = () => {
     setDay(event.target.value);
   };
 
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openDialogReprogramar, setOpenDialogReprogramar] = useState(false);
   const [selectedId, setSelectedId] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
+  const { updateServicio } = useServicios();
 
   const handleOpenDialog = (id) => {
     setSelectedId(id);
-    setOpenDialog(true);
+    setOpenDialogReprogramar(true);
   };
 
   const handleCloseDialog = () => {
-    setOpenDialog(false);
+    setOpenDialogReprogramar(false);
   };
 
   const handleDateChange = (event) => {
@@ -95,6 +98,71 @@ export const HojaTrabajoPage = () => {
   const handleReprogramar = () => {
     reprogramarServicio(selectedId, selectedDate);
     handleCloseDialog();
+  };
+
+  const [openDialogEdit, setOpenDialogEdit] = useState(false);
+  const [servicioEditing, setServicioEditing] = useState({
+    _id: "",
+    numero_llamada: "",
+    tienda: "",
+    marca: "",
+    producto: "",
+    fecha_visita: "",
+    tipo_servicio: "",
+    color: "",
+    turno: "",
+  });
+
+  const handleInputChange = async (e) => {
+    const { name, value } = e.target;
+    setServicioEditing({
+      ...servicioEditing,
+      [name]: value,
+    });
+  };
+
+  const handleEditarServicio = async (servicio) => {
+    setServicioEditing(servicio);
+    setOpenDialogEdit(true);
+  };
+  const handleCloseEditarServicio = () => {
+    setOpenDialogEdit(false);
+    setServicioEditing({
+      numero_llamada: "",
+      tienda: "",
+      marca: "",
+      producto: "",
+      fecha_visita: "",
+      tipo_servicio: "",
+      color: "",
+      turno: "",
+      _id: "",
+    });
+  };
+  const handleSaveService = () => {
+    updateServicio(servicioEditing);
+    getHojaTrabajo(day);
+    handleCloseEditarServicio();
+  };
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [filteredServicios, setFilteredServicios] = useState([]);
+
+  useEffect(() => {
+    setFilteredServicios(servicios);
+  }, [servicios]);
+
+  const handleChangeSearchTerm = (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    const filtered = servicios.filter(
+      (servicio) =>
+        servicio.numero_llamada.toLowerCase().includes(searchTerm) ||
+        servicio.cliente.nombre_apellido.toLowerCase().includes(searchTerm) ||
+        servicio.cliente.distrito.toLowerCase().includes(searchTerm) ||
+        servicio.cliente.num_telefono.toLowerCase().includes(searchTerm)
+    );
+    setFilteredServicios(filtered);
+    setSearchTerm(searchTerm);
   };
 
   return (
@@ -112,7 +180,6 @@ export const HojaTrabajoPage = () => {
           {day}
         </Typography>
       </Box>
-
       <Box
         display="flex"
         alignItems="center"
@@ -178,7 +245,15 @@ export const HojaTrabajoPage = () => {
           </p>
         </Box>
       </Box>
-
+      <Grid item xs={12} sm={8}>
+        <TextField
+          label="Buscar por Nombre de cliente, Número de llamada, Número de telefono o distrito"
+          margin="normal"
+          fullWidth
+          value={searchTerm}
+          onChange={handleChangeSearchTerm}
+        />
+      </Grid>
       <Box sx={{ display: "flex", alignItems: "center" }}></Box>
       <TableContainer component={Paper}>
         <Table>
@@ -195,11 +270,12 @@ export const HojaTrabajoPage = () => {
               <TableCell>Color</TableCell>
               <TableCell>¿Reprogramar?</TableCell>
               <TableCell>¿Realizado?</TableCell>
+              <TableCell>¿Editar?</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {servicios.length > 0 &&
-              servicios.map((servicio) => (
+            {filteredServicios.length > 0 &&
+              filteredServicios.map((servicio) => (
                 <TableRow key={servicio._id}>
                   <TableCell>
                     {servicio.numero_llamada + " / " + servicio.marca}
@@ -226,14 +302,25 @@ export const HojaTrabajoPage = () => {
                       {servicio.comentario}
                     </span>{" "}
                   </TableCell>
-                  <TableCell>{servicio.turno}</TableCell>
+                  <TableCell
+                    style={{
+                      background:
+                        servicio.turno === "T/M" || servicio.turno === "T/T"
+                          ? "yellow"
+                          : "",
+                    }}
+                  >
+                    {servicio.turno}
+                  </TableCell>
                   <TableCell sx={{ background: servicio.color }}></TableCell>
                   <TableCell>
                     <IconButton onClick={() => handleOpenDialog(servicio._id)}>
                       <CalendarTodayIcon style={{ cursor: "pointer" }} />
                     </IconButton>
                     <CalendarDialog
-                      open={openDialog && selectedId === servicio._id}
+                      open={
+                        openDialogReprogramar && selectedId === servicio._id
+                      }
                       onClose={handleCloseDialog}
                       onDateChange={handleDateChange}
                       handleReprogramar={handleReprogramar}
@@ -241,28 +328,49 @@ export const HojaTrabajoPage = () => {
                   </TableCell>{" "}
                   <TableCell>
                     {servicio.estado_realizado ? (
-                      <CheckCircleOutlineIcon
-                        color="primary"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          handleCheckServicio(servicio._id);
-                        }}
-                      />
+                      <IconButton>
+                        <CheckCircleOutlineIcon
+                          color="primary"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            handleCheckServicio(servicio._id);
+                          }}
+                        />
+                      </IconButton>
                     ) : (
-                      <CancelIcon
-                        color="error"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          handleCheckServicio(servicio._id);
-                        }}
-                      />
+                      <IconButton>
+                        <CancelIcon
+                          color="error"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            handleCheckServicio(servicio._id);
+                          }}
+                        />
+                      </IconButton>
                     )}
+                  </TableCell>
+                  <TableCell>
+                    <IconButton
+                      aria-label="editar"
+                      onClick={() => handleEditarServicio(servicio)}
+                    >
+                      <EditIcon />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}
           </TableBody>
         </Table>
       </TableContainer>
+      {openDialogEdit && (
+        <VerServicioDialog
+          open={openDialogEdit}
+          servicio={servicioEditing}
+          handleInputChange={handleInputChange}
+          handleClose={handleCloseEditarServicio}
+          handleSaveService={handleSaveService}
+        />
+      )}{" "}
     </Box>
   );
 };

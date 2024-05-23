@@ -48,6 +48,7 @@ export const ProgramarPage = () => {
         key !== "dni" &&
         key !== "comentario" &&
         key !== "_id" &&
+        key !== "referencia" &&
         formData.cliente[key] === ""
       ) {
         return false;

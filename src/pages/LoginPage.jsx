@@ -20,10 +20,11 @@ export const LoginPage = () => {
   const [user, setUser] = useState({ username: "", password: "" });
 
   useEffect(() => {
+    console.log(isAuthenticated);
     if (isAuthenticated) {
       navigate("/clientes");
     }
-  }, []);
+  }, [isAuthenticated]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
