@@ -1,1 +1,1 @@
-export const API_URL = "https://servitecluciov2-4eb1f3bae78c.herokuapp.com";
+export const API_URL = "http://localhost:3000";
