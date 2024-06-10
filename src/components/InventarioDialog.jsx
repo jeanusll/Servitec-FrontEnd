@@ -32,7 +32,17 @@ const AccesorioDialog = ({
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      maxWidth="md"
+      PaperProps={{
+        style: {
+          height: "80vh",
+          width: "70vh",
+        },
+      }}
+    >
       <DialogTitle>Crear Accesorio</DialogTitle>
       <DialogContent>
         <Grid container spacing={2}>
@@ -59,6 +69,17 @@ const AccesorioDialog = ({
           </Grid>
           <Grid item xs={12}>
             <TextField
+              label="Precio"
+              fullWidth
+              margin="normal"
+              value={formData.precio}
+              name="precio"
+              onChange={handleInputChange}
+              type="number"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
               label="Categoria"
               fullWidth
               margin="normal"
@@ -79,11 +100,6 @@ const AccesorioDialog = ({
               onChange={handleInputChange}
             />
           </Grid>
-          <Grid
-            item
-            xs={6}
-            style={{ display: "flex", justifyContent: "center" }}
-          ></Grid>
         </Grid>
       </DialogContent>
       <DialogActions>

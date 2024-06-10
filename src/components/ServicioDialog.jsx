@@ -57,7 +57,6 @@ export const ServicioDialog = ({ open, onClose, onAddService }) => {
         turno: nuevoServicio.turno,
         color: nuevoServicio.color,
       });
-      console.log(nuevoServicio);
       onClose();
     }
   };

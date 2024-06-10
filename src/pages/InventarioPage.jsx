@@ -38,6 +38,7 @@ export const InventarioPage = () => {
   const [editingAccesorio, setEditingAccesorio] = useState({
     nombre: "",
     stock: "",
+    precio: "",
     descripcion: "",
     categoria: "",
   });
@@ -62,6 +63,7 @@ export const InventarioPage = () => {
     setEditingAccesorio({
       nombre: "",
       stock: "",
+      precio: "",
       descripcion: "",
       categoria: "",
     });
@@ -135,6 +137,7 @@ export const InventarioPage = () => {
             >
               <TableCell>Nombre</TableCell>
               <TableCell>Stock</TableCell>
+              <TableCell>Precio</TableCell>
               <TableCell>Descripción</TableCell>
               <TableCell>Número Vendidos</TableCell>
               <TableCell>Categoría</TableCell>
@@ -146,6 +149,7 @@ export const InventarioPage = () => {
               <TableRow key={accesorio._id}>
                 <TableCell>{accesorio.nombre}</TableCell>
                 <TableCell>{accesorio.stock}</TableCell>
+                <TableCell>{accesorio.precio}</TableCell>
                 <TableCell>{accesorio.descripcion}</TableCell>
                 <TableCell>{accesorio.num_vendidos}</TableCell>
                 <TableCell>{accesorio.categoria}</TableCell>

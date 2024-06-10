@@ -45,6 +45,9 @@ export const Navbar = () => {
           <Link to="/clientes" style={styles.link}>
             Clientes
           </Link>
+          <Link to="/ventas" style={styles.link}>
+            Ventas
+          </Link>
           <Link to="/servicios" style={styles.link}>
             Servicios
           </Link>

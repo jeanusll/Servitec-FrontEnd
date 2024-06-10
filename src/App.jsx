@@ -13,6 +13,7 @@ import { ServicioPage } from "./pages/ServicioPage.jsx";
 import { InventarioPage } from "./pages/InventarioPage.jsx";
 import { HojaTrabajoPage } from "./pages/HojaTrabajoPage.jsx";
 import { ProgramarPage } from "./pages/ProgramarPage.jsx";
+import { VentaPage } from "./pages/VentaPage.jsx";
 
 import { ProtectedRoute } from "./routes.jsx";
 import { Navbar } from "./components/Navbar.jsx";
@@ -57,6 +58,7 @@ function App() {
                           path="/hoja-trabajo"
                           element={<HojaTrabajoPage />}
                         ></Route>
+                        <Route path="/ventas" element={<VentaPage />}></Route>
                       </Route>
                     </Routes>
                   </main>
