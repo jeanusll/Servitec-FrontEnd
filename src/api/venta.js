@@ -1,9 +1,12 @@
 import axios from "./axios";
 //create
-export const createVentaRequest = async (venta) => axios.post("/venta", venta);
+export const createVentaRequest = async (venta) =>
+  axios.post("/api/venta", { formData: venta });
 
 //read
-export const getAllVentasRequest = async () => axios.get("/ventas");
+export const getAllVentasRequest = async (page) =>
+  axios.get(`/api/ventas?page=${page}`);
+
 export const getVentaRequest = async (id) => axios.get(`/venta/${id}`);
 
 //update

@@ -14,7 +14,8 @@ import {
   Grid,
 } from "@mui/material";
 
-export const ConfirmarDatosVenta = ({ cliente, accesorios }) => {
+export const ConfirmarDatosVenta = ({ formData }) => {
+  const { cliente, accesorios } = formData;
   return (
     <div>
       <Typography variant="h6">Confirmar Datos</Typography>

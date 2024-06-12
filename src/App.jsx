@@ -5,7 +5,7 @@ import { ClienteProvider } from "./context/ClienteContext.jsx";
 import { ServicioProvider } from "./context/ServicioContext.jsx";
 import { HojaTrabajoProvider } from "./context/HojaTrabajoContext.jsx";
 import { ProgramarProvider } from "./context/ProgramarContext.jsx";
-
+import { VentasProvider } from "./context/VentaContext.jsx";
 import { RegisterPage } from "./pages/RegisterPage.jsx";
 import { LoginPage } from "./pages/LoginPage.jsx";
 import { ClientesPage } from "./pages/ClientePage.jsx";
@@ -32,36 +32,38 @@ function App() {
             <InventarioProvider>
               <HojaTrabajoProvider>
                 <ProgramarProvider>
-                  <main>
-                    <Navbar />
-                    <Routes>
-                      <Route path="/" element={<LoginPage />} />
-                      <Route path="/register" element={<RegisterPage />} />
-                      <Route element={<ProtectedRoute />}>
-                        <Route
-                          path="/programar"
-                          element={<ProgramarPage />}
-                        ></Route>
-                        <Route
-                          path="/clientes"
-                          element={<ClientesPage />}
-                        ></Route>
-                        <Route
-                          path="/servicios"
-                          element={<ServicioPage />}
-                        ></Route>
-                        <Route
-                          path="/accesorios"
-                          element={<InventarioPage />}
-                        ></Route>
-                        <Route
-                          path="/hoja-trabajo"
-                          element={<HojaTrabajoPage />}
-                        ></Route>
-                        <Route path="/ventas" element={<VentaPage />}></Route>
-                      </Route>
-                    </Routes>
-                  </main>
+                  <VentasProvider>
+                    <main>
+                      <Navbar />
+                      <Routes>
+                        <Route path="/" element={<LoginPage />} />
+                        <Route path="/register" element={<RegisterPage />} />
+                        <Route element={<ProtectedRoute />}>
+                          <Route
+                            path="/programar"
+                            element={<ProgramarPage />}
+                          ></Route>
+                          <Route
+                            path="/clientes"
+                            element={<ClientesPage />}
+                          ></Route>
+                          <Route
+                            path="/servicios"
+                            element={<ServicioPage />}
+                          ></Route>
+                          <Route
+                            path="/accesorios"
+                            element={<InventarioPage />}
+                          ></Route>
+                          <Route
+                            path="/hoja-trabajo"
+                            element={<HojaTrabajoPage />}
+                          ></Route>
+                          <Route path="/ventas" element={<VentaPage />}></Route>
+                        </Route>
+                      </Routes>
+                    </main>
+                  </VentasProvider>
                 </ProgramarProvider>
               </HojaTrabajoProvider>
             </InventarioProvider>

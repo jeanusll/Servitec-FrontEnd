@@ -13,7 +13,7 @@ import { CrearCliente } from "./steps/CrearCliente";
 import { useState } from "react";
 import { AccesorioVenta } from "./steps/AccesorioVenta";
 import { ConfirmarDatosVenta } from "./ConfirmarDatosVenta";
-
+import { useVentas } from "../context/VentaContext";
 export const VentaDialog = ({
   open,
   handleClose,
@@ -23,6 +23,8 @@ export const VentaDialog = ({
   addAccesorio,
 }) => {
   const [activeStep, setActiveStep] = useState(0);
+
+  const { createventa } = useVentas();
 
   const getStep = (step) => {
     switch (step) {
@@ -42,16 +44,16 @@ export const VentaDialog = ({
           ></AccesorioVenta>
         );
       case 2:
-        return (
-          <ConfirmarDatosVenta
-            cliente={formData.cliente}
-            accesorios={formData.accesorios}
-          ></ConfirmarDatosVenta>
-        );
+        return <ConfirmarDatosVenta formData={formData}></ConfirmarDatosVenta>;
     }
   };
   const handleNext = async () => {
     if (activeStep < 2) setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+    if (activeStep == 2) {
+      createventa(formData);
+      handleCloseDialog();
+    }
   };
 
   const handleBack = () => {

@@ -7,13 +7,17 @@ import {
   TableRow,
   Typography,
   Button,
+  TableBody,
 } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { VentaDialog } from "../components/VentaDialog";
+import { useVentas } from "../context/VentaContext";
 
 export const VentaPage = () => {
+  const { ventas, getAllVentas, currentPage, totalPages } = useVentas();
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const [venta, setVenta] = useState({
     cliente: {
@@ -28,9 +32,18 @@ export const VentaPage = () => {
     },
     accesorios: [],
   });
+
+  useEffect(() => {
+    getAllVentas(currentPage);
+  }, []);
+
   const handleDialogOpen = (event) => {
     setDialogOpen(true);
   };
+
+  useEffect(() => {
+    console.log(venta);
+  }, [venta]);
 
   const handleDialogClose = (event) => {
     setVenta({
@@ -96,9 +109,21 @@ export const VentaPage = () => {
               <TableCell>Fecha</TableCell>
               <TableCell>Hora</TableCell>
               <TableCell>Productos</TableCell>
-              <TableCell>Total</TableCell>
+              <TableCell>Total de la venta</TableCell>
             </TableRow>
           </TableHead>
+          <TableBody>
+            {ventas.map((venta) => (
+              <TableRow key={venta._id}>
+                <TableCell>{venta.serial}</TableCell>
+                <TableCell>{venta.nombre_cliente}</TableCell>
+                <TableCell>{venta.fecha}</TableCell>
+                <TableCell>{venta.fecha}</TableCell>
+                <TableCell>productos</TableCell>
+                <TableCell>{venta.total}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
         </Table>
       </TableContainer>
 
